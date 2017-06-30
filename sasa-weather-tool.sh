@@ -1,15 +1,13 @@
-# if today is in range then use this location and zip
-# if [ "$a" != "$b" ] ; then
-#    case $i in
-  #       1|2|5) echo "Not OK"; ;;
-    #     9|10|12) echo "may be ok"; ;;
-    #     *) echo "no clue - $i"; ;;
-   # esac;
-# fi
-zipcode="60638"
-location="Chicago MidWay"
+
+# Get today's date
 today="$(date '+%Y%m%d')"
 yesterday="$(date -d yesterday '+%Y%m%d')"
-echo "$location | $yesterday | $zipcode | TEMP,STP,SPD,DIR,PCP01" > noaa-reqs.txt
 
-#./noaahist.py --infile noaa-reqs.txt -p -m
+# Write the command and export it
+echo "Chicago MidWay | $yesterday | 60638 | TEMP,STP,SPD,DIR,PCP01" > noaa-reqs.txt
+echo "Command Exported to noaa-reqs.txt"
+
+# Run the NOAA API
+../noaahist/noaahist.py --infile noaa-reqs.txt -p -m -o weather-info.csv
+
+#Run python 
