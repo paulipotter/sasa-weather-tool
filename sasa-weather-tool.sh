@@ -6,7 +6,7 @@
     #     *) echo "no clue - $i"; ;;
    # esac;
 # fi
-zipcode = "60638"
+zipcode="60638"
 location="Chicago MidWay"
 today="$(date '+%Y%m%d')"
 yesterday="$(date -d yesterday '+%Y%m%d')"
