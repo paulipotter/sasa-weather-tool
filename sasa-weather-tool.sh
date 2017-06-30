@@ -6,10 +6,10 @@
     #     *) echo "no clue - $i"; ;;
    # esac;
 # fi
-zip = "60638"
+zipcode = "60638"
 location="Chicago MidWay"
 today="$(date '+%Y%m%d')"
 yesterday="$(date -d yesterday '+%Y%m%d')"
-echo "$location | $yesterday | $zip | TEMP,STP,SPD,DIR,PCP01" > noaa-reqs.txt
+echo "$location | $yesterday | $zipcode | TEMP,STP,SPD,DIR,PCP01" > noaa-reqs.txt
 
 #./noaahist.py --infile noaa-reqs.txt -p -m
