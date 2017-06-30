@@ -1,0 +1,24 @@
+bash script that calls noaahist once a day
+text file with the details
+location name | date OR start_date,end_date | zip or latitude,longitude | comma-separated weather fields
+
+
+
+1 hour averages.
+Temperature
+  'TEMP': temperature in Farenheit
+Barometric Pressure
+  STP': station pressure in millibars to nearest tenth
+Wind Speed (WS)
+  'SPD': wind speed in miles per hour
+Wind Direction (WD) – please note that this is a vector – thus, the data cannot be mathematically averaged. We need 1-hour WD and WS data to create the wind-rose during the community air monitoring in each community
+  'DIR': wind direction in compass degrees, 990 = variable, reported as '***' when air is calm (spd will then be 000)
+Precipitation
+  'PCP01': 1-hour liquid precip report in inches and hundredths -- that is, the precip for the preceding 1 hour period
+  'PCP06': 6-hour liquid precip report in inches and hundredths -- that is, the precip for the preceding 6 hour period
+  'PCP24': 24-hour liquid precip report in inches and hundredths -- that is, the precip for the preceding 24 hour period
+  'PCPXX': liquid precip report in inches and hundredths, for a period other than 1, 6, or 24 hours (usually for 12 hour period for stations outside the u.s., and for 3 hour period for the u.s.) t = trace for any precip field
+
+csv exported
+import csv
+export to posgres

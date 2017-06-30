@@ -1,0 +1,1 @@
+location name | date OR start_date,end_date | zip or latitude,longitude | comma-separated weather fields
