@@ -22,3 +22,7 @@ Precipitation
 csv exported
 import csv
 export to posgres
+conn=pycopg2.connect("dbname= user=")
+cur=conn.cursor()
+print(cur.fetchone())
+
