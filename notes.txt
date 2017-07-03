@@ -26,3 +26,4 @@ conn=pycopg2.connect("dbname= user=")
 cur=conn.cursor()
 print(cur.fetchone())
 
+usaf,wban,yrmodahrmn,dir,spd,gus,clg,skc,l,m,h,vsb,temp,dewp,slp,alt,stp,max,min,pcp01,pcp06,pcp24,pcpxx,sd
