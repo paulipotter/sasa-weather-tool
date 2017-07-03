@@ -1,7 +1,7 @@
 import psycopg2
 import csv
 
-conn = psycopg2.connect("dbname=template1 user=paulipotter")
+conn = psycopg2.connect("dbname=template1 user=postgres")
 cur = conn.cursor()
 cur.execute(" CREATE TABLE test (idserial PRIMARYKEY, numinteger, data);")
 cur.execute(" INSERT INTO test (num, data) VALUES (%s,%s)", (100, "abcdef"))
