@@ -4,11 +4,12 @@ import csv
 conn = psycopg2.connect("dbname=template1 user=postgres")
 cur = conn.cursor()
 cur.execute(" CREATE TABLE test (idserial PRIMARYKEY, numinteger, data);")
-cur.execute(" INSERT INTO test (num integer, data varchar(55)) VALUES (%s,%s)", (100, "abcdef"))
+cur.execute(" INSERT INTO test (num integer, data varchar(55)) VALUES (%s,%s)";, (100, "abcdef"))
 with open('file.csv') as csv_file:
-    rw = csv.reader(csv_file, delimeter=',')
+    rw = csv.reader(csv_file)
     rw.next()
     for row in rw:
+        print (row)
         cur.execute("Insert into test (num,data)", row)
 
 
