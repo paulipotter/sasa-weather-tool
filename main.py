@@ -17,7 +17,7 @@ cur.execute(''' CREATE TABLE testcol
 
 print("Opening CSV...")
 
-with open('file.csv') as csv_file:
+with open('weather-info.csv') as csv_file:
     rw = csv.reader(csv_file)
     for row in rw:
         print (row)
