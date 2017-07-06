@@ -13,7 +13,7 @@ echo '''CHICAGO MIDWAY INTL AIRPORT | 20170623
 echo "Command Exported to noaa-reqs.txt"
 
 # Run the NOAA API
-python ./noaahist/noaahist.py --infile noaa-reqs.txt -p -m -o weather-info.csv
+python ./noaahist.py --infile noaa-reqs.txt -p -m -o weather-info.csv
 
 #Run python
 # python3 main.py
