@@ -105,12 +105,12 @@ class WeatherDataRequest(object):
                             self.stns_metadata[_id]['dist'] = haversine(self.lat, self.lon, self.stns[_id]['lat'], self.stns[_id]['lon'])
                             self.stns_metadata[_id]['name'] = self.stns[_id]['name']
                     else:
-                        print "\n\nWARNING: no data found for fld=< {0} > for date=< {1} >\n".format(fld, "{:%Y-%m-%d}".format(d))
-                        keep_going = raw_input("Proceed anyhow? [y/n]\n")
-                        if keep_going and keep_going[0].lower() == 'y':
-                            pass
-                        else:
-                            sys.exit("noaahist.py process has been terminated.")
+                        print "WARNING: no data found for fld=< {0} > for date=< {1} >".format(fld, "{:%Y-%m-%d}".format(d))
+                     #   keep_going = raw_input("Proceed anyhow? [y/n]\n")
+                     #   if keep_going and keep_going[0].lower() == 'y':
+                        pass
+                     #   else:
+                     #       sys.exit("noaahist.py process has been terminated.")
             # else clause -> triggered if we are NOT in a new year, so most of the time
             else:
                 for fld in self.flds:
@@ -492,6 +492,7 @@ def main(args, update_stations=False):
 
     # Combine and write output
     all_resp = AllWeatherResponses([resp[0] for resp in resps])
+    print(resp[0], "\n")
     all_resp.write(args.outfile)
 
     if args.metadata:
