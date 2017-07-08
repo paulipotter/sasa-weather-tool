@@ -29,6 +29,7 @@ with open('weather-info.csv') as csv_file:
     rw = csv.reader(csv_file)
     next(csv_file)
     for row in skip_first(rw, 3):
+        print(type(row))
         new_row = ([date] + row)
         cur.execute(""" INSERT INTO testone
                         (yrmodahrmn,DIR,SPD,GUS,CLG,
@@ -36,12 +37,12 @@ with open('weather-info.csv') as csv_file:
                         TEMP,DEWP,SLP,ALT,STP,
                         MAX,MIN,PCP01,PCP06,PCP24,
                         PCPXX,SD)
-                    VALUES 
-                        (%s, %s, %s, %s, %s, 
+                    VALUES
+                        (%s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
-                        %s, %s, %s, %s, %s, 
-                        %s, %s, %s, %s, %s, 
-                        %s, %s);""", new_row) 
+                        %s, %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s,
+                        %s, %s);""", new_row)
 
 
 # Make the changes to the database persistent
