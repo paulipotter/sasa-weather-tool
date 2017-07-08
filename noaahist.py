@@ -492,7 +492,6 @@ def main(args, update_stations=False):
 
     # Combine and write output
     all_resp = AllWeatherResponses([resp[0] for resp in resps])
-    print(resp[0], "\n")
     all_resp.write(args.outfile)
 
     if args.metadata:

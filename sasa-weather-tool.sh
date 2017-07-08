@@ -12,5 +12,5 @@ python ./noaahist.py --infile noaa-reqs.txt -p -m -o weather-info.csv
 echo noaahist run finished
 echo Running main.py
 #Run python
-#python3 main.py
+python3 main.py
 echo main.py run finished

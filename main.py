@@ -11,32 +11,37 @@ cur = conn.cursor()
 print("connected to db")
 
 
+def to_int(list):
+    return int(''.join(list))
+
+
 def skip_first(seq, n):
     for i, item in enumerate(seq):
         if i == 1:
-            print(item)
-            date = datetime(int(item[:4]), int(item[4:6]), int(item[6:8]), int(item[8:]), 30, 00)
+            date = datetime(to_int(item[1][:4]), to_int(item[1][4:6]), to_int(item[1][6:8]), to_int(item[1][8:]), 30, 00)
             date = timezone('US/Central').localize(date)
-            date = date.strftime("%Y-%m-%d %H:%M:%S %Z%z")
-            print(date)
+            date = date.strftime("%Y-%m-%s %H:%M:%S %Z%z")
         if i >= n:
             yield item
 
 
 with open('weather-info.csv') as csv_file:
     rw = csv.reader(csv_file)
-    print("start of execution")
     next(csv_file)
     for row in skip_first(rw, 3):
-        print (row)
-        cur.execute(''' Insert into testone
-                        (yrmodahrmn,DIR,SPD,GUS,CLG,SKC,L,M,H,
-                        VSB,TEMP,DEWP,SLP,ALT,STP,
-                        MAX,MIN,PCP01,PCP06,PCP24,PCPXX,SD)
-                        Values (%s, %s, %s, %s, %s, %s, %s,
-                        %s, %s, %s, %s, %s, %s, %s, %s,
-                        %s, %s, %s, %s, %s,%s);''',
-                    date, row)
+        new_row = ([date] + row)
+        cur.execute(""" INSERT INTO testone
+                        (yrmodahrmn,DIR,SPD,GUS,CLG,
+                        SKC,L,M,H,VSB,
+                        TEMP,DEWP,SLP,ALT,STP,
+                        MAX,MIN,PCP01,PCP06,PCP24,
+                        PCPXX,SD)
+                    VALUES 
+                        (%s, %s, %s, %s, %s, 
+                        %s, %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s, 
+                        %s, %s, %s, %s, %s, 
+                        %s, %s);""", new_row) 
 
 
 # Make the changes to the database persistent
