@@ -15,23 +15,29 @@ def to_int(list):
     return int(''.join(list))
 
 
-def skip_first(seq, n):
-    for i, item in enumerate(seq):
-        if i == 1:
-            date = datetime(to_int(item[1][:4]), to_int(item[1][4:6]), to_int(item[1][6:8]), to_int(item[1][8:]), 30, 00)
-            date = timezone('US/Central').localize(date)
-            date = date.strftime("%Y-%m-%s %H:%M:%S %Z%z")
-        if i >= n:
-            yield item
-
+def format_list(row):
+    new_list = row[4:]
+#    for i in range(len(row)):
+#        if i == 1:
+    date = datetime(to_int(row[1][:4]), to_int(row[1][4:6]), to_int(row[1][6:8]), to_int(row[1][8:10]), 30, 00)
+    print("Processing date", date)
+            #date = timezone('US/Central').localize(date)
+    new_list.append(row)
+  #      if i < 4:
+  #          del row[i]
+#        elif i >= 4:
+#            yield row
+    new_list.append(row)
+    return new_list
 
 with open('weather-info.csv') as csv_file:
     rw = csv.reader(csv_file)
     next(csv_file)
-    for row in skip_first(rw, 3):
-        print(type(row))
-        new_row = ([date] + row)
-        cur.execute(""" INSERT INTO testone
+    testlist = []
+    for row in rw:
+        data = list(format_list(row))
+        print(data)
+        command = """ INSERT INTO testone
                         (yrmodahrmn,DIR,SPD,GUS,CLG,
                         SKC,L,M,H,VSB,
                         TEMP,DEWP,SLP,ALT,STP,
@@ -42,9 +48,9 @@ with open('weather-info.csv') as csv_file:
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
-                        %s, %s);""", new_row)
-
-
+                        %s, %s)"""
+        print(cur.mogrify(command, (data,)))
+        cur.execute(cur.mogrify(command, (data,)))
 # Make the changes to the database persistent
 conn.commit()
 
