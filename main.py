@@ -2,53 +2,26 @@ import psycopg2
 import csv
 from datetime import datetime 
 from pytz import timezone
+from engine import format
+from constants import *
 
-date = ""
-
-
+#  Connect to PostgreSQL Database
 conn = psycopg2.connect("dbname=template1 user=postgres")
 cur = conn.cursor()
 print("connected to db")
 
-
-def to_int(list):
-    return int(''.join(list))
-
-
-def format_list(row):
-    new_list = []
-    print(row)
-#    for i in range(len(row)):
-#        if i == 1:
-    date = datetime(to_int(row[1][:4]), to_int(row[1][4:6]), to_int(row[1][6:8]), to_int(row[1][8:10]), 30, 00)
-#    print(date)
-    new_list.insert(0,date)
-    for i in range(4,len(row)):
-        if row[i] == '*':
-            new_list.append(0)
-#        elif row[i] == '0.00':
-#            new_list.append('0')        
-        else:
-            new_list.append(row[i])
-            print(type(row[i]), row[i])
-            #date = timezone('US/Central').localize(date)
-  #      if i < 4:
-  #          del row[i]
-#        elif i >= 4:
-#            yield row
-    return new_list
-columns = ['TEMP','MIN','MAX','DEWP',
-                        'DIR','SPD','GUS','PCPXX',
-                        'PCP06','PCP24','SD','SKC','CLG',
-                        'L','M','H','SLP','STP',
-                        'ALT','VSB']
-with open('weather-info.csv') as csv_file:
+# Open CSV File
+with open(FILE_NAME) as csv_file:
     rw = csv.reader(csv_file)
+    # Ignore first line of CSV File (Header)
     next(csv_file)
-    testlist = []
+
+    #For every row in the CSV
     for row in rw:
+        #Create a new list that discards the first 4 columns and reformats the date
         data = list(format_list(row))
 
+        #Insert the new list to the corresponding table
         cur.execute(  """ INSERT INTO testone
                         (yrmodahrmn,TEMP,MIN,MAX,DEWP,
                         DIR,SPD,GUS,PCP01,PCPXX,
@@ -61,9 +34,12 @@ with open('weather-info.csv') as csv_file:
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
                         %s, %s)""", data)
-    for item in columns:
-        null_if_zero = 'UPDATE testone SET {0}=NULL WHERE {0}=0'.format(item)
-        cur.execute(null_if_zero)
+
+    # Set Zeroes to NULL
+    for item in COLUMNS:
+        query = UPDATE_NULL_IF_ZERO.format(item)
+        cur.execute(query)
+
 # Make the changes to the database persistent
 conn.commit()
 
