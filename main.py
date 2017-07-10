@@ -16,41 +16,54 @@ def to_int(list):
 
 
 def format_list(row):
-    new_list = row[4:]
+    new_list = []
+    print(row)
 #    for i in range(len(row)):
 #        if i == 1:
     date = datetime(to_int(row[1][:4]), to_int(row[1][4:6]), to_int(row[1][6:8]), to_int(row[1][8:10]), 30, 00)
-    print("Processing date", date)
+#    print(date)
+    new_list.insert(0,date)
+    for i in range(4,len(row)):
+        if row[i] == '*':
+            new_list.append(0)
+#        elif row[i] == '0.00':
+#            new_list.append('0')        
+        else:
+            new_list.append(row[i])
+            print(type(row[i]), row[i])
             #date = timezone('US/Central').localize(date)
-    new_list.append(row)
   #      if i < 4:
   #          del row[i]
 #        elif i >= 4:
 #            yield row
-    new_list.append(row)
     return new_list
-
+columns = ['yrmodahrmn','TEMP','MIN','MAX','DEWP',
+                        'DIR','SPD','GUS','PCP01','PCPXX',
+                        'PCP06','PCP24','SD','SKC','CLG',
+                        'L','M','H','SLP','STP',
+                        'ALT','VSB']
 with open('weather-info.csv') as csv_file:
     rw = csv.reader(csv_file)
     next(csv_file)
     testlist = []
     for row in rw:
         data = list(format_list(row))
-        print(data)
-        command = """ INSERT INTO testone
-                        (yrmodahrmn,DIR,SPD,GUS,CLG,
-                        SKC,L,M,H,VSB,
-                        TEMP,DEWP,SLP,ALT,STP,
-                        MAX,MIN,PCP01,PCP06,PCP24,
-                        PCPXX,SD)
+
+        cur.execute(  """ INSERT INTO testone
+                        (yrmodahrmn,TEMP,MIN,MAX,DEWP,
+                        DIR,SPD,GUS,PCP01,PCPXX,
+                        PCP06,PCP24,SD,SKC,CLG,
+                        L,M,H,SLP,STP,
+                        ALT,VSB)
                     VALUES
-                        (%s, %s, %s, %s, %s,
+                       (%s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
-                        %s, %s)"""
-        print(cur.mogrify(command, (data,)))
-        cur.execute(cur.mogrify(command, (data,)))
+                        %s, %s)""", data)
+    for item in columns:
+        null_if_zero = cur.mogrify(""" UPDATE testone SET %s=NULL WHERE %s=0 """, ('m','m'))
+        cur.execute(null_if_zero)
 # Make the changes to the database persistent
 conn.commit()
 
