@@ -37,8 +37,8 @@ def format_list(row):
 #        elif i >= 4:
 #            yield row
     return new_list
-columns = ['yrmodahrmn','TEMP','MIN','MAX','DEWP',
-                        'DIR','SPD','GUS','PCP01','PCPXX',
+columns = ['TEMP','MIN','MAX','DEWP',
+                        'DIR','SPD','GUS','PCPXX',
                         'PCP06','PCP24','SD','SKC','CLG',
                         'L','M','H','SLP','STP',
                         'ALT','VSB']
@@ -62,7 +62,7 @@ with open('weather-info.csv') as csv_file:
                         %s, %s, %s, %s, %s,
                         %s, %s)""", data)
     for item in columns:
-        null_if_zero = cur.mogrify(""" UPDATE testone SET %s=NULL WHERE %s=0 """, ('m','m'))
+        null_if_zero = 'UPDATE testone SET {0}=NULL WHERE {0}=0'.format(item)
         cur.execute(null_if_zero)
 # Make the changes to the database persistent
 conn.commit()
