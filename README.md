@@ -10,6 +10,7 @@ Please refer to the NOAA API Documentation to gain knowledge on the fields avail
 
 ###### On your terminal
 `chmod +x sasa-weather-tool.sh` <- Allow execution of the file
+
 `sh sasa-weather-tool.sh` or `sasa-weather-tool.sh` 
 
 ##### DEPENDENCIES
