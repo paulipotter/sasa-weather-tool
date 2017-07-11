@@ -6,5 +6,5 @@ COLUMNS = ['TEMP','MIN','MAX','DEWP',
                         'L','M','H','SLP','STP',
                         'ALT','VSB']
 
-FILE_NAME = 'weather_info.csv'
-UPDATE_NULL_IF_ZERO = 'UPDATE testone SET {0}=NULL WHERE {0}=0'
+FILE_NAME = 'weather-info.csv'
+UPDATE_NULL_IF_ZERO = "UPDATE testone SET {0}=NULL WHERE {0}::varchar= '0'"
